@@ -23,7 +23,6 @@ namespace ConsoleAplication
             {
                 text = sr.ReadToEnd();
             }
-            Console.WriteLine(text);
             List<Firma> FirmaList = new List<Firma>();
             XmlSerializer xs = new XmlSerializer(typeof (List<Firma>));
             BinaryFormatter bf = new BinaryFormatter();
@@ -190,6 +189,7 @@ namespace ConsoleAplication
             }
         }
     }
+
     [Serializable]
     public class Firma
     {
