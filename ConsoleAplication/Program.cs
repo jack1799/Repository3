@@ -15,16 +15,16 @@ namespace ConsoleAplication
     {
         static void Main(string[] args)
         {
-            int a;
-            int z;
+            int a,z;
+            bool i;
             FileStream xFile = new FileStream("option.ini", FileMode.OpenOrCreate);
             string text = null;
             using (StreamReader sr = new StreamReader(xFile))
             {
                 text = sr.ReadToEnd();
             }
-            IDictionary<string, Firma> FirmaDictionary = new Dictionary<string, Firma>();
-            XmlSerializer xs = new XmlSerializer(typeof (Dictionary<string, Firma>));  // Ошибка
+            List<Firma> FirmaList = new List<Firma>();
+            XmlSerializer xs = new XmlSerializer(typeof (List<Firma>));
             BinaryFormatter bf = new BinaryFormatter();
             try
             {
@@ -32,10 +32,10 @@ namespace ConsoleAplication
                 {
                     using (FileStream fs = new FileStream("Firma.xml", FileMode.OpenOrCreate))
                     {
-                        Dictionary<string, Firma> newF = (Dictionary<string, Firma>)xs.Deserialize(fs);
-                        foreach (var Firma in newF)
+                        List<Firma> newF = (List<Firma>)xs.Deserialize(fs);
+                        foreach (Firma m in newF)
                         {
-                            FirmaDictionary.Add(Firma.Key, new Firma(Firma.Value.Age, Firma.Value.Zarplata));
+                            FirmaList.Add(new Firma(m.Fio, m.Age, m.Zarplata));
                         }
                     }
                 }
@@ -43,10 +43,10 @@ namespace ConsoleAplication
                 {
                     using (FileStream fs = new FileStream("Firma.dat", FileMode.OpenOrCreate))
                     {
-                        Dictionary<string, Firma> FirmaDictionar = (Dictionary<string, Firma>)bf.Deserialize(fs);
-                        foreach (var Firma in FirmaDictionar)
+                        List<Firma> FirmaL = (List<Firma>)bf.Deserialize(fs);
+                        foreach (Firma m in FirmaL)
                         {
-                            FirmaDictionary.Add(Firma.Key, new Firma(Firma.Value.Age, Firma.Value.Zarplata));
+                            FirmaList.Add(new Firma(m.Fio, m.Age, m.Zarplata));
                         }
                     }
                 }
@@ -94,7 +94,7 @@ namespace ConsoleAplication
                         }
                         try
                         {
-                            FirmaDictionary.Add(n, new Firma(a, z));
+                            FirmaList.Add(new Firma(n, a, z));
                         }
                         catch (Exception)
                         {
@@ -109,16 +109,28 @@ namespace ConsoleAplication
                         Console.Clear();
                         Console.WriteLine("Напишите имя для удаления из базы");
                         string g = (string)Console.ReadLine();
-                        FirmaDictionary.Remove(g);
+                        i = true;
+                        foreach (Firma m in FirmaList)
+                        {
+                            if (m.Fio == g)
+                            {
+                                FirmaList.Remove(m);
+                                i = false;
+                                break;
+                            }
+                        }
+                        if (i)
+                        {
+                            Console.WriteLine("Такого имени нет в базе");
+                        }
                         Console.Clear();
                         break;
 
                     case '3':
                         Console.Clear();
-                        foreach (var firma in FirmaDictionary)
+                        foreach (Firma m in FirmaList)
                         {
-                            Console.WriteLine("Работник " + firma.Key);
-                            firma.Value.Info();
+                            m.Info();
                             Console.WriteLine();
                         }
                         Console.WriteLine("Для продолжения нажмите любую клавишу");
@@ -130,17 +142,18 @@ namespace ConsoleAplication
                         Console.Clear();
                         Console.WriteLine("Введите имя работника");
                         string f = (string)Console.ReadLine();
-                        Console.Clear();
-                        
-                        Console.WriteLine("Данные про " + f );
-                        try
+                        i = true;
+                        foreach (Firma m in FirmaList)
                         {
-                            FirmaDictionary[f].Info();
+                            if (m.Fio == f)
+                            {
+                                m.Info();
+                                i = false;
+                            }
                         }
-                        catch (Exception)
+                        if (i)
                         {
-                            Console.Clear();
-                            Console.WriteLine("Такого работника нет в базе");
+                            Console.WriteLine("Такого имени нет в базе");
                         }
                         Console.WriteLine();
                         Console.WriteLine("Для продолжения нажмите любую клавишу");
@@ -154,14 +167,14 @@ namespace ConsoleAplication
                         {
                             using (FileStream fs = new FileStream("Firma.xml", FileMode.OpenOrCreate))
                             {
-                                xs.Serialize(fs, FirmaDictionary);
+                                xs.Serialize(fs, FirmaList);
                             }
                         }
                         else
                         {
                             using (FileStream fs = new FileStream("Firma.dat", FileMode.OpenOrCreate))
                             {
-                                bf.Serialize(fs, FirmaDictionary);
+                                bf.Serialize(fs, FirmaList);
                             }
                         }
                         return;
@@ -179,15 +192,18 @@ namespace ConsoleAplication
     public class Firma
     {
         public Firma() {}
-        public Firma(int Age, int Zarplata)
+        public Firma(string Fio, int Age, int Zarplata)
         {
+            this.Fio = Fio;
             this.Age = Age;
             this.Zarplata = Zarplata;
         }
+        public string Fio { get; set; }
         public int Age { get; set; }
         public int Zarplata { get; set; }
         public void Info()
         {
+            Console.WriteLine("Инициаллы:" + Fio);
             Console.WriteLine("Возраст: " + Age);
             Console.WriteLine("Зарплата: " + Zarplata);
         }
