@@ -23,6 +23,7 @@ namespace ConsoleAplication
             {
                 text = sr.ReadToEnd();
             }
+            Console.WriteLine(text);
             List<Firma> FirmaList = new List<Firma>();
             XmlSerializer xs = new XmlSerializer(typeof (List<Firma>));
             BinaryFormatter bf = new BinaryFormatter();
@@ -108,7 +109,7 @@ namespace ConsoleAplication
                     case '2':
                         Console.Clear();
                         Console.WriteLine("Напишите имя для удаления из базы");
-                        string g = (string)Console.ReadLine();
+                        string g = Console.ReadLine();
                         i = true;
                         foreach (Firma m in FirmaList)
                         {
@@ -141,12 +142,13 @@ namespace ConsoleAplication
                     case '4':
                         Console.Clear();
                         Console.WriteLine("Введите имя работника");
-                        string f = (string)Console.ReadLine();
+                        string f = Console.ReadLine();
                         i = true;
                         foreach (Firma m in FirmaList)
                         {
                             if (m.Fio == f)
                             {
+                                Console.Clear();
                                 m.Info();
                                 i = false;
                             }
@@ -203,7 +205,7 @@ namespace ConsoleAplication
         public int Zarplata { get; set; }
         public void Info()
         {
-            Console.WriteLine("Инициаллы:" + Fio);
+            Console.WriteLine("Инициаллы: " + Fio);
             Console.WriteLine("Возраст: " + Age);
             Console.WriteLine("Зарплата: " + Zarplata);
         }
