@@ -35,7 +35,7 @@ namespace ConsoleAplication
                         List<Firma> newF = (List<Firma>)xs.Deserialize(fs);
                         foreach (Firma m in newF)
                         {
-                            FirmaList.Add(new Firma(m.Fio, m.Age, m.Zarplata));
+                            FirmaList.Add(new Firma(m.Fio, m.Age, m.Salary));
                         }
                     }
                 }
@@ -46,7 +46,7 @@ namespace ConsoleAplication
                         List<Firma> FirmaL = (List<Firma>)bf.Deserialize(fs);
                         foreach (Firma m in FirmaL)
                         {
-                            FirmaList.Add(new Firma(m.Fio, m.Age, m.Zarplata));
+                            FirmaList.Add(new Firma(m.Fio, m.Age, m.Salary));
                         }
                     }
                 }

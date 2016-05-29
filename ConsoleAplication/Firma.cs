@@ -10,20 +10,20 @@ namespace ConsoleAplication
     public class Firma
     {
         public Firma() { }
-        public Firma(string Fio, int Age, int Zarplata)
+        public Firma(string Fio, int Age, int Salary)
         {
             this.Fio = Fio;
             this.Age = Age;
-            this.Zarplata = Zarplata;
+            this.Salary = Salary;
         }
         public string Fio { get; set; }
         public int Age { get; set; }
-        public int Zarplata { get; set; }
+        public int Salary { get; set; }
         public void Info()
         {
             Console.WriteLine("Инициаллы: " + Fio);
             Console.WriteLine("Возраст: " + Age);
-            Console.WriteLine("Зарплата: " + Zarplata);
+            Console.WriteLine("Зарплата: " + Salary);
         }
     }
 }
