@@ -17,12 +17,30 @@ namespace ConsoleAplication
         {
             int a,z;
             bool i;
-            FileStream xFile = new FileStream("option.ini", FileMode.OpenOrCreate);
             string text = null;
-            using (StreamReader sr = new StreamReader(xFile))
+            try
             {
-                text = sr.ReadToEnd();
+                FileStream xFile = new FileStream("option.ini", FileMode.Open);
+                using (StreamReader sr = new StreamReader(xFile))
+                {
+                    text = sr.ReadToEnd();
+                }
+                if (text == "")
+                {
+                    Console.WriteLine("В конфигурационном файле option.ini напишите bin или xml в зависимости от нужной сериализации");
+                    Console.WriteLine("Нажмите любую клавишу для продолжения");
+                    Console.ReadKey();
+                    return;
+                }
             }
+            catch (Exception)
+            {
+                Console.WriteLine("Создайте конфигурационный файл option.ini и напишите в нем xml или bin в зависимости от нужной сериализации");
+                Console.WriteLine("Нажмите любую клавишу для продолжения");
+                Console.ReadKey();
+                return;
+            }
+            
             List<Firma> FirmaList = new List<Firma>();
             XmlSerializer xs = new XmlSerializer(typeof (List<Firma>));
             BinaryFormatter bf = new BinaryFormatter();
@@ -45,8 +63,10 @@ namespace ConsoleAplication
             {
                 if (text.ToLower() != "bin")
                 {
-                    Console.WriteLine("В конфигурационном файле option.ini напишите bin или xml в зависимости от нужной сериализации (по умолчанию bin)");
-                    Console.WriteLine();
+                    Console.WriteLine("В файле должно быть записано либо bin либо xml");
+                    Console.WriteLine("Нажмите любую клавишу для продолжения");
+                    Console.ReadKey();
+                    return;
                 }
                 try
                 {
@@ -59,7 +79,7 @@ namespace ConsoleAplication
                        }
                    }
                 }
-            catch (Exception) { }
+                catch (Exception) { }
            }
             while (true)
             {
