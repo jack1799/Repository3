@@ -26,34 +26,31 @@ namespace ConsoleAplication
             List<Firma> FirmaList = new List<Firma>();
             XmlSerializer xs = new XmlSerializer(typeof (List<Firma>));
             BinaryFormatter bf = new BinaryFormatter();
-            try
+            if (text.ToLower() == "xml")
             {
-                if (text.ToLower() == "xml")
+                using (FileStream fs = new FileStream("Firma.xml", FileMode.OpenOrCreate))
                 {
-                    using (FileStream fs = new FileStream("Firma.xml", FileMode.OpenOrCreate))
+                    List<Firma> newF = (List<Firma>)xs.Deserialize(fs);
+                    foreach (Firma m in newF)
                     {
-                        List<Firma> newF = (List<Firma>)xs.Deserialize(fs);
-                        foreach (Firma m in newF)
-                        {
-                            FirmaList.Add(new Firma(m.Fio, m.Age, m.Salary));
-                        }
-                    }
-                }
-                else
-                {
-                    using (FileStream fs = new FileStream("Firma.dat", FileMode.OpenOrCreate))
-                    {
-                        List<Firma> FirmaL = (List<Firma>)bf.Deserialize(fs);
-                        foreach (Firma m in FirmaL)
-                        {
-                            FirmaList.Add(new Firma(m.Fio, m.Age, m.Salary));
-                        }
+                        FirmaList.Add(new Firma(m.Fio, m.Age, m.Salary));
                     }
                 }
             }
-            catch (Exception)
+            else
             {
-
+                if (text.ToLower() != "bin")
+                {
+                    Console.WriteLine("В конфигурационном файле option.ini напишите bin или xml в зависимости от нужной сериализации (по умолчанию bin)");
+                }
+                using (FileStream fs = new FileStream("Firma.dat", FileMode.OpenOrCreate))
+                {
+                    List<Firma> FirmaL = (List<Firma>)bf.Deserialize(fs);
+                    foreach (Firma m in FirmaL)
+                    {
+                        FirmaList.Add(new Firma(m.Fio, m.Age, m.Salary));
+                    }
+                }
             }
             while (true)
             {
