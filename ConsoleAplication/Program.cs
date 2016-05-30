@@ -130,7 +130,9 @@ namespace ConsoleAplication
                         Console.Clear();
                         foreach (Firma m in FirmaList)
                         {
-                            m.Info();
+                            Console.WriteLine("Инициаллы: " + m.Fio);
+                            Console.WriteLine("Возраст: " + m.Age);
+                            Console.WriteLine("Зарплата: " + m.Salary);
                             Console.WriteLine();
                         }
                         Console.WriteLine("Для продолжения нажмите любую клавишу");
@@ -148,7 +150,9 @@ namespace ConsoleAplication
                             if (m.Fio == f)
                             {
                                 Console.Clear();
-                                m.Info();
+                                Console.WriteLine("Инициаллы: " + m.Fio);
+                                Console.WriteLine("Возраст: " + m.Age);
+                                Console.WriteLine("Зарплата: " + m.Salary);
                                 i = false;
                             }
                         }
