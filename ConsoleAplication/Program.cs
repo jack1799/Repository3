@@ -28,21 +28,28 @@ namespace ConsoleAplication
             BinaryFormatter bf = new BinaryFormatter();
             if (text.ToLower() == "xml")
             {
-                using (FileStream fs = new FileStream("Firma.xml", FileMode.OpenOrCreate))
+                try
                 {
-                    List<Firma> newF = (List<Firma>)xs.Deserialize(fs);
-                    foreach (Firma m in newF)
+                    using (FileStream fs = new FileStream("Firma.xml", FileMode.OpenOrCreate))
                     {
-                        FirmaList.Add(new Firma(m.Fio, m.Age, m.Salary));
+                        List<Firma> newF = (List<Firma>)xs.Deserialize(fs);
+                        foreach (Firma m in newF)
+                        {
+                            FirmaList.Add(new Firma(m.Fio, m.Age, m.Salary));
+                        }
                     }
                 }
+                catch (Exception) { }
             }
             else
             {
                 if (text.ToLower() != "bin")
                 {
                     Console.WriteLine("В конфигурационном файле option.ini напишите bin или xml в зависимости от нужной сериализации (по умолчанию bin)");
+                    Console.WriteLine();
                 }
+            try
+            {
                 using (FileStream fs = new FileStream("Firma.dat", FileMode.OpenOrCreate))
                 {
                     List<Firma> FirmaL = (List<Firma>)bf.Deserialize(fs);
@@ -52,6 +59,8 @@ namespace ConsoleAplication
                     }
                 }
             }
+                catch (Exception) { }
+        }
             while (true)
             {
                 Console.WriteLine("1 - создать запись сотрудника");
