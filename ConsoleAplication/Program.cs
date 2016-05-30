@@ -60,7 +60,7 @@ namespace ConsoleAplication
                    }
                 }
             catch (Exception) { }
-        }
+           }
             while (true)
             {
                 Console.WriteLine("1 - создать запись сотрудника");
@@ -98,16 +98,21 @@ namespace ConsoleAplication
                             Console.WriteLine("Неверный ввод");
                             break;
                         }
-                        try
+
+                        Boolean b = true;
+                        foreach (var Firma in FirmaList)
                         {
-                            FirmaList.Add(new Firma(n, a, z));
+                            if (Firma.Fio == n)
+                            {
+                                Console.Clear();
+                                Console.WriteLine("Работник с такими же инициалами есть в базе");
+                                Console.WriteLine("Нажмите любую клавишу для продолжения");
+                                Console.ReadKey();
+                                b = false;
+                                break;
+                            }
                         }
-                        catch (Exception)
-                        {
-                            Console.WriteLine("Работник с такими же инициалами есть в базе");
-                            Console.WriteLine("Нажмите любую клавишу для продолжения");
-                            Console.ReadKey();
-                        }
+                        if (b) FirmaList.Add(new Firma(n, a, z));
                         Console.Clear();
                         break;
 
