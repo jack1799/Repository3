@@ -48,18 +48,18 @@ namespace ConsoleAplication
                     Console.WriteLine("В конфигурационном файле option.ini напишите bin или xml в зависимости от нужной сериализации (по умолчанию bin)");
                     Console.WriteLine();
                 }
-            try
-            {
-                using (FileStream fs = new FileStream("Firma.dat", FileMode.OpenOrCreate))
+                try
                 {
-                    List<Firma> FirmaL = (List<Firma>)bf.Deserialize(fs);
-                    foreach (Firma m in FirmaL)
-                    {
-                        FirmaList.Add(new Firma(m.Fio, m.Age, m.Salary));
-                    }
+                   using (FileStream fs = new FileStream("Firma.dat", FileMode.OpenOrCreate))
+                   {
+                       List<Firma> FirmaL = (List<Firma>)bf.Deserialize(fs);
+                       foreach (Firma m in FirmaL)
+                       {
+                           FirmaList.Add(new Firma(m.Fio, m.Age, m.Salary));
+                       }
+                   }
                 }
-            }
-                catch (Exception) { }
+            catch (Exception) { }
         }
             while (true)
             {
